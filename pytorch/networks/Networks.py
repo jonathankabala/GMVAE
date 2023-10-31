@@ -37,6 +37,7 @@ class InferenceNet(nn.Module):
 
   # q(y|x)
   def qyx(self, x, temperature, hard):
+  
     num_layers = len(self.inference_qyx)
     for i, layer in enumerate(self.inference_qyx):
       if i == num_layers - 1:
@@ -57,8 +58,8 @@ class InferenceNet(nn.Module):
     #x = Flatten(x)
 
     # q(y|x)
+
     logits, prob, y = self.qyx(x, temperature, hard)
-    
     # q(z|x,y)
     mu, var, z = self.qzxy(x, y)
 
@@ -129,6 +130,9 @@ class GMVAENet(nn.Module):
     out_inf = self.inference(x, temperature, hard)
     z, y = out_inf['gaussian'], out_inf['categorical']
     out_gen = self.generative(z, y)
+    
+    import pdb
+    pdb.set_trace()
     
     # merge output
     output = out_inf

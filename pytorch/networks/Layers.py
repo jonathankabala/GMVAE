@@ -39,6 +39,7 @@ class GumbelSoftmax(nn.Module):
     return -torch.log(-torch.log(U + eps) + eps)
 
   def gumbel_softmax_sample(self, logits, temperature):
+  
     y = logits + self.sample_gumbel(logits.size(), logits.is_cuda)
     return F.softmax(y / temperature, dim=-1)
 
@@ -64,6 +65,7 @@ class GumbelSoftmax(nn.Module):
     return y_hard 
   
   def forward(self, x, temperature=1.0, hard=False):
+      
     logits = self.logits(x).view(-1, self.c_dim)
     prob = F.softmax(logits, dim=-1)
     y = self.gumbel_softmax(logits, temperature, hard)

@@ -124,8 +124,10 @@ class GMVAE:
       data = data.view(data.size(0), -1)
       
       # forward call
-      out_net = self.network(data, self.gumbel_temp, self.hard_gumbel) 
+      out_net = self.network(data, self.gumbel_temp, self.hard_gumbel)
+      
       unlab_loss_dic = self.unlabeled_loss(data, out_net) 
+
       total = unlab_loss_dic['total']
 
       # accumulate values
@@ -242,12 +244,15 @@ class GMVAE:
     Returns:
         output: (dict) contains the history of train/val loss
     """
+
     optimizer = optim.Adam(self.network.parameters(), lr=self.learning_rate)
     train_history_acc, val_history_acc = [], []
     train_history_nmi, val_history_nmi = [], []
 
     for epoch in range(1, self.num_epochs + 1):
       train_loss, train_rec, train_gauss, train_cat, train_acc, train_nmi = self.train_epoch(optimizer, train_loader)
+
+
       val_loss, val_rec, val_gauss, val_cat, val_acc, val_nmi = self.test(val_loader, True)
 
       # if verbose then print specific information about training

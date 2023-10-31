@@ -40,14 +40,14 @@ parser.add_argument('--gpuID', type=int, default=0,
                     help='set gpu id to use (default: 0)')
 
 ## Training
-parser.add_argument('--epochs', type=int, default=100,
+parser.add_argument('--epochs', type=int, default=1000,
                     help='number of total epochs to run (default: 200)')
 parser.add_argument('--batch_size', default=64, type=int,
                     help='mini-batch size (default: 64)')
 parser.add_argument('--batch_size_val', default=200, type=int,
                     help='mini-batch size of validation (default: 200)')
-parser.add_argument('--learning_rate', default=1e-3, type=float,
-                    help='learning rate (default: 0.001)')
+parser.add_argument('--learning_rate', default=3e-4, type=float,
+                    help='learning rate (default: 0.0003)')
 parser.add_argument('--decay_epoch', default=-1, type=int, 
                     help='Reduces the learning rate every decay_epoch')
 parser.add_argument('--lr_decay', default=0.5, type=float,
@@ -88,7 +88,7 @@ parser.add_argument('--rec_type', type=str, choices=['bce', 'mse'],
                     default='bce', help='desired reconstruction loss function (default: bce)')
 
 ## Others
-parser.add_argument('--verbose', default=0, type=int,
+parser.add_argument('--verbose', default=1, type=int,
                     help='print extra information at every epoch.(default: 0)')
 parser.add_argument('--random_search_it', type=int, default=20,
                     help='iterations of random search (default: 20)')
@@ -143,9 +143,11 @@ print(args.input_size)
 ## Train and Test Model
 #########################################################
 gmvae = GMVAE(args)
-
 ## Training Phase
 history_loss = gmvae.train(train_loader, val_loader)
+
+import pdb
+pdb.set_trace()
 
 ## Testing Phase
 accuracy, nmi = gmvae.test(test_loader)
